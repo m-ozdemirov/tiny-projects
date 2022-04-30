@@ -75,41 +75,6 @@ def test_all_stdout():
 
 
 # --------------------------------------------------
-def test_all():
-    """Test 1-12"""
-
-    test_out = './test-out'
-    assert os.path.isdir(test_out)
-
-    for n in range(1, 13):
-        print(n)
-        # Normal run (STDOUT)
-        expected_file = os.path.join(test_out, f'{n}.out')
-        assert os.path.isfile(expected_file)
-        expected = open(expected_file).read().rstrip()
-
-        cmd = f'{prg} -n {n}'
-        out = getoutput(cmd).rstrip()
-        assert out == expected
-
-        # Run with --outfile
-        out_file = random_string()
-        if os.path.isfile(out_file):
-            os.remove(out_file)
-
-        try:
-            out = getoutput(cmd + f' -o {out_file}').rstrip()
-            assert out == ''
-            assert os.path.isfile(out_file)
-            output = open(out_file).read().rstrip()
-            assert len(output.split('\n')) == len(expected.split('\n'))
-            assert output.rstrip() == expected.rstrip()
-        finally:
-            if os.path.isfile(out_file):
-                os.remove(out_file)
-
-
-# --------------------------------------------------
 def random_string():
     """generate a random string"""
 

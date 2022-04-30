@@ -28,43 +28,34 @@ def get_args():
 
     return args
 
-def verse(days):
+def verse(day):
     '''Returns a verse of a song'''
 
     days_dict = {1: 'first', 2: 'second', 3: 'third', 4: 'fourth',
                  5: 'fifth', 6: 'sixth', 7: 'seventh', 8: 'eighth',
                  9: 'nineth', 10: 'tenth', 11: 'eleventh', 12: 'twelvth'}
 
-    gifts = ['A partridge in a pear tree', 'Two turtle doves', 'Three French hens',
+    gifts = ['A partridge in a pear tree.', 'Two turtle doves', 'Three French hens',
              'Four callling birds', 'Five gold rings', 'Six geese a laying',
              'Seven swans a swimming', 'Eight maids a milking', 'Nine ladies dancing',
              'Ten lords a leaping', 'Eleven pipers piping', 'Twelve drummers drumming']
 
-    gifts_sliced = list(reversed(gifts[:days]))
+    lines = [f'On the {days_dict[day]} day of Christmas',
+             'My true love gave to me']
 
-    last_line = 'A partridge in a pear tree.' if days == 1 else 'And a partridge in a pear tree.'
-    new_line = '\n'
+    lines.extend(reversed(gifts[:day]))
 
-    if days == 1:
-        main_lines = ''
-    else:
-        main_lines = f'{new_line.join(gifts_sliced[:-1])},\n'
+    if day > 1:
+        lines[-1] = f'And {lines[-1].lower()}'
 
-    return ''.join([f'On the {days_dict[days]} day of Christmas,\n',
-                   f'My true love gave to me,\n',
-                   f'{main_lines}',
-                   f'{last_line}\n'])
+    return ',\n'.join(lines)
 
 def main():
     '''Protag theme starts playing'''
 
     args = get_args()
-
-    for i in range(1, args.num+1):
-        if i != args.num:
-            print(verse(i), file=args.outfile)
-        else:
-            print(verse(i).rstrip(), file=args.outfile)
+    verses = map(verse, range(1, args.num + 1))
+    print('\n\n'.join(verses), file=args.outfile)
 
 if __name__ == '__main__':
     main()
