@@ -35,7 +35,7 @@ def get_args():
 def scramble(word):
     """Scramble a word"""
     if len(word) > 3 and re.match(r"\w+", word):
-        word_list = list(word)
+        word_list = list(word[1:-1])
         random.shuffle(word_list)
         scr_word = "".join(word_list)
         word = word[0] + scr_word + word[-1]
